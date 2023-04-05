@@ -5,12 +5,12 @@ on:
       dockerFile:
         type: string
         description: "Path to the Dockerfile to build (e.g. ./Dockerfile)"
-        required: true
+        required: false
         default: "./Dockerfile"
       dockerContext:
         type: string
         description: "Path of the Docker build context (e.g. ./)"
-        required: true
+        required: false
         default: "./"
 
 jobs:
