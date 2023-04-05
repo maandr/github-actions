@@ -2,32 +2,28 @@ name: CD (Docker Build & Push to GitHub Container Registry)
 on:
   workflow_call:
     inputs:
-      dockerImage:
-        type: string
-        description: "The name of the Docker image to build (e.g. ghcr.io/username/repository)"
-        required: true
-      dockerTags:
+      tags:
         type: string
         description: "The tags to apply to the Docker image (e.g. latest,1.0.0)"
         required: true
-      dockerLabels:
+      labels:
         type: string
         description: "The labels to apply to the Docker image"
         required: false
         default: ""
-      dockerFile:
+      file:
         type: string
         description: "Path to the Dockerfile to build (e.g. ./Dockerfile)"
         required: false
         default: "./Dockerfile"
-      dockerContext:
+      context:
         type: string
         description: "Path of the Docker build context (e.g. ./)"
         required: false
         default: "./"
 
     secrets:
-      CONTAINER_REGISTRY_PAT:
+      GHCR_PAT:
         description: "Personal Access Token for GitHub Container Registry"
         required: true
 
@@ -53,16 +49,16 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.CONTAINER_REGISTRY_PAT }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: 🏗️ Build and publish
         id: docker-build-and-push
         uses: docker/build-push-action@v3.3.0
         with:
           push: true
-          context: ${{ inputs.dockerContext }}
-          file: ${{ inputs.dockerFile }}
-          tags: ${{ inputs.docketTags }}
-          labels: ${{ inputs.dockerLabels }}
+          context: ${{ inputs.context }}
+          file: ${{ inputs.file }}
+          tags: ${{ inputs.tags }}
+          labels: ${{ inputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
