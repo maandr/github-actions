@@ -9,14 +9,17 @@ on:
     outputs:
       tags:
         description: "A comma-separated list of the tags"
-        value: ${{ steps.docker-meta.outputs.tags }}
+        value: ${{ job.generate-docker-tags.outputs.tags }}
       labels:
         description: "A comma-separated list of the labels"
-        value: ${{ steps.docker-meta.outputs.labels }}
+        value: ${{ job.generate-docker-tags.outputs.labels }}
 
 jobs:
   generate-docker-tags:
     runs-on: ubuntu-latest
+    outputs:
+        tags: ${{ steps.docker-meta.outputs.tags }}
+        labels: ${{ steps.docker-meta.outputs.labels }}
     steps:
       - name: 📥 Checkout Git Repository
         id: checkout-git-repository
