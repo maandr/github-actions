@@ -4,11 +4,12 @@ A compilation of predefined workflows for GitHub Actions. The workflows are desi
 
 ## Available Workflows
 
-| Workflow                                                      | Description                                                                                                                   |
-|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| [`ci-node`](./.github/workflows/ci-node.yaml)                 | This is a Node.js continuous integration workflow that performs tasks such as building, linting, and testing the application. |
-| [`ci-docker-build`](./.github/workflows/ci-docker-build.yaml) | This is a continuous integration workflow that builds a docker image from a given dockerfile and docker context.              |
-
+| Workflow                                                      | Description                                                                                                                                                                                      |
+|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`ci-node`](./.github/workflows/ci-node.yaml)                 | This is a Node.js continuous integration workflow that performs tasks such as building, linting, and testing the application.                                                                    |
+| [`ci-docker-image`](./.github/workflows/ci-docker-image.yaml) | This is a continuous integration workflow that builds a docker image from a given dockerfile and docker context.                                                                                 |
+| [`cd-ghcr`](./.github/workflows/cd-ghcr.yaml)                 | This is a continuous delivery workflow that builds a docker image, tags it and pushes it to the GitHub Container Registry.                                                                       |
+| [`cd-image-tags`](./.github/workflows/cd-image-tags.yaml)     | This is a continuous delivery workflow that generates image tags from the GitHub repository meta information. It also produces an image tag that can be sorted using the format `<branch>-<sha>-<timestamp>`. |
 
 ## Usage
 

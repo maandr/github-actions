@@ -1,4 +1,4 @@
-name: CI (Docker Build)
+name: CI (Docker Image)
 on:
   workflow_call:
     inputs:
