@@ -34,7 +34,7 @@ jobs:
         id: docker-meta
         uses: docker/metadata-action@v4.3.0
         with:
-          images: ${{ inputs.dockerImage }}
+          images: ${{ inputs.image }}
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}
