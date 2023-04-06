@@ -32,6 +32,29 @@ steps:
       privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
 ```
 
+### http-get
+
+This action initiates an HTTP GET request to the designated host and validates the status code of the resulting response.
+
+#### Inputs
+
+| Name         | Description                                       | Default |
+|--------------|---------------------------------------------------|---------|
+| `host`       | Name of the host to send the request to.          | -       |
+| `path`       | Path segment to append to after the request host. | `""`    |
+| `protocol`   | The protocol to use for the request.              | `https` |
+| `statusCode` | The expected status code of the response.         | `200`   |
+
+#### Usage
+
+```yaml
+steps:
+  - name: 🧪 GET google.com
+    uses: maandr/github-actions/.github/actions/http-get@main
+    with:
+      host: google.com
+```
+
 ## Available Workflows
 
 ### ci-node
