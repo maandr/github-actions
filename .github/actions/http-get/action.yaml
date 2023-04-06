@@ -24,4 +24,4 @@ runs:
     - name: 🧪 GET ${{ inputs.protocol }}://${{ inputs.host }}
       shell: bash
       run: |
-        curl -s -o /dev/null -w "%{http_code}" ${{ inputs.protocol }}://${{ inputs.host }}{{ inputs.path }} | grep -q "${{ inputs.statusCode }}" || exit 1
+        curl -s -o /dev/null -w "%{http_code}" ${{ inputs.protocol }}://${{ inputs.host }}${{ inputs.path }} | grep -q "${{ inputs.statusCode }}" || exit 1
