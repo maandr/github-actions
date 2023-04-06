@@ -2,12 +2,12 @@ name: CI (Docker Image)
 on:
   workflow_call:
     inputs:
-      dockerFile:
+      file:
         type: string
         description: "Path to the Dockerfile to build (e.g. ./Dockerfile)"
         required: false
         default: "./Dockerfile"
-      dockerContext:
+      context:
         type: string
         description: "Path of the Docker build context (e.g. ./)"
         required: false
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v3.3.0
         with:
           push: false
-          context: ${{ inputs.dockerContext }}
-          file: ${{ inputs.dockerFile }}
+          context: ${{ inputs.context }}
+          file: ${{ inputs.file }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
