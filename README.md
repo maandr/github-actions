@@ -1,6 +1,36 @@
 # GitHub Actions
 
-A compilation of predefined workflows for GitHub Actions. The workflows are designed to be [reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows), which means that they can be used in other projects by referencing them in the `uses` field of a workflow step.
+A compilation of predefined workflows and actions for GitHub Actions. 
+
+* The workflows are designed to be [reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows), which means that they can be used in other projects by referencing them in the `uses` field of a workflow step.  
+* The actions are designed to be [composite actions](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action), which means that they can be used in other jobs by referencing them in the `uses` field of a step.
+
+## Available Actions
+
+### setup-ssh
+
+This action sets up an SSH config on the workflow runner, so SSH commands can be executed in any subsequent steps.
+
+#### Inputs
+
+| Name         | Description                          | Default |
+|--------------|--------------------------------------|---------|
+| `host`       | Hostname of the remote host.         | -       |
+| `username`   | Username of the remote host.         | -       |
+| `privateKey` | SSH private key for the remote host. | -       |
+
+#### Usage
+
+```yaml
+steps:
+  - name: ⚙️ Setup SSH on runner
+    id: setup-ssh-on-runner
+    uses: maandr/github-actions/.github/actions/setup-ssh@<version>
+    with:
+      host: ${{ secrets.SSH_DEPLOY_HOST }}
+      username: ${{ secrets.SSH_DEPLOY_USERNAME }}
+      privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
+```
 
 ## Available Workflows
 
