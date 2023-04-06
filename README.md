@@ -33,10 +33,10 @@ A continuous integration workflow that builds a docker image from a given docker
 
 #### Inputs
 
-| Name            | Description                       | Default        |
-|-----------------|-----------------------------------|----------------|
-| `dockerFile`    | Path to the Dockerfile to build.  | `./Dockerfile` |
-| `dockerContext` | Path of the Docker build context. | `./`           |
+| Name      | Description                       | Default        |
+|-----------|-----------------------------------|----------------|
+| `file`    | Path to the Dockerfile to build.  | `./Dockerfile` |
+| `context` | Path of the Docker build context. | `./`           |
 
 #### Usage
 
@@ -45,8 +45,8 @@ jobs:
   ci-docker-image:
     uses: maandr/github-actions/.github/workflows/ci-docker-image.yaml@<version>
     with:
-      dockerFile: './Dockerfile'
-      dockerContext: './'
+      file: './Dockerfile'
+      context: './'
 ```
 
 ### cd-image-tags
