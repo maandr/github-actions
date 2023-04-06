@@ -1,0 +1,30 @@
+name: "Setup SSH"
+description: "Setup SSH config for a remote host"
+
+inputs:
+  host:
+    description: "Hostname of the remote host"
+    required: true
+  username:
+    description: "Username of the remote host"
+    required: true
+  privateKey:
+    description: "SSH private key for the remote host"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: ⚙️ Setup SSH on runner
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ inputs.privateKey }}" > ~/.ssh/remote.key
+        chmod 600 ~/.ssh/remote.key
+        cat >> ~/.ssh/config <<END
+        Host ${{ inputs.host }}
+          HostName ${{ inputs.host }}
+          User ${{ inputs.username }}
+          IdentityFile ~/.ssh/remote.key
+          StrictHostKeyChecking no
+        END
