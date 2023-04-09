@@ -31,6 +31,12 @@ jobs:
         id: checkout-git-repository
         uses: actions/checkout@v3.3.0
 
+      - name: ⚙ Install pnpm
+        id: install-pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
       - name: ⚙️ Setup Node ${{ inputs.nodeVersion }}
         id: setup-node
         uses: actions/setup-node@v3
