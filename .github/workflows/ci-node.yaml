@@ -46,7 +46,7 @@ jobs:
 
       - name: 📦 Install Dependencies
         id: install-dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: 🏗️ Build Application
         if: always()
