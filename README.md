@@ -55,6 +55,35 @@ steps:
       host: google.com
 ```
 
+### rsync-upload
+
+Transfers a file or directory from the GitHub runner to a remote host using rsync for uploading.
+
+#### Inputs
+
+| Name           | Description                                                         | Default |
+|----------------|---------------------------------------------------------------------|---------|
+| `host`         | Hostname of the remote host.                                        | -       |
+| `username`     | Username of the remote host.                                        | -       |
+| `privateKey`   | SSH private key for the remote host.                                | -       |
+| `source`       | The file or directory that should be uploaded.                      | -       |
+| `destination`  | The path to which the upload should be directed at the remote host. | -       |
+| `rsyncOptions` | Arguments to pass to the rsync command.                             | `-avz`  |
+
+#### Usage
+
+```yaml
+steps:
+  - name: ⏫ Upload files
+    uses: maandr/github-actions/.github/actions/rsync-upload@main
+    with:
+      host: ${{ secrets.SSH_DEPLOY_HOST }}
+      username: ${{ secrets.SSH_DEPLOY_USERNAME }}
+      privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
+      source: './dist'
+      destination: '/var/www/html'
+```
+
 ## Available Workflows
 
 ### ci-node
