@@ -24,12 +24,12 @@ jobs:
       file: ./tests/docker-image/Dockerfile
       context: ./tests/docker-image/
 
-  test-generate-image-tags:
+  test-cd-image-tags:
     uses: ./.github/workflows/cd-image-tags.yaml
     with:
       image: ghcr.io/${{ github.repository }}
 
-  test-build-and-push-to-ghcr:
+  test-cd-ghcr:
     uses: ./.github/workflows/cd-ghcr.yaml
     with:
       file: ./tests/docker-image/Dockerfile
