@@ -53,7 +53,7 @@ jobs:
 
       - name: 🏗️ Build and publish
         id: docker-build-and-push
-        uses: docker/build-push-action@v3.3.0
+        uses: docker/build-push-action@v4.0.0
         with:
           push: true
           context: ${{ inputs.context }}
