@@ -1,0 +1,46 @@
+name: "Rsync Upload"
+description: "Transfers a file or directory from the GitHub runner to a remote host using rsync for uploading"
+
+inputs:
+  host:
+    description: "Hostname of the remote host"
+    required: true
+  username:
+    description: "Username of the remote host"
+    required: true
+  privateKey:
+    description: "SSH private key for the remote host"
+    required: true
+  source:
+    description: "The file or directory that should be uploaded"
+    required: true
+  destination:
+    description: "The path to which the upload should be directed at the remote host"
+    required: true
+  rsyncOptions:
+    description: "Arguments to pass to the rsync command"
+    required: false
+    default: "-avz"
+
+runs:
+  using: composite
+  steps:
+    - name: ⚙️ Setup SSH on runner
+      id: setup-ssh-on-runner
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ inputs.privateKey }}" > ~/.ssh/remote.key
+        chmod 600 ~/.ssh/remote.key
+        cat >> ~/.ssh/config <<END
+        Host ${{ inputs.host }}
+          HostName ${{ inputs.host }}
+          User ${{ inputs.username }}
+          IdentityFile ~/.ssh/remote.key
+          StrictHostKeyChecking no
+        END
+
+    - name: ⏫ (SSH) Transfer files
+      id: transfer-files
+      shell: bash
+      run: rsync ${{ inputs.rsyncOptions }} ${{ inputs.source }} ${{ inputs.host }}:${{ inputs.destination }}
