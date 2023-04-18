@@ -22,10 +22,19 @@ on:
         description: "The command to build the source code (e.g. pnpm build)"
         required: false
         default: "pnpm build"
+      working-directory:
+        type: string
+        description: "The working directory to use (e.g. ./app)"
+        required: false
+        default: "./"
+
 
 jobs:
   build-node:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
     steps:
       - name: 📥 Checkout Git Repository
         id: checkout-git-repository
@@ -43,6 +52,7 @@ jobs:
         with:
           node-version: ${{ inputs.nodeVersion }}
           cache: 'pnpm'
+          cache-dependency-path: ${{ inputs.working-directory }}/pnpm-lock.yaml
 
       - name: 📦 Install Dependencies
         id: install-dependencies
