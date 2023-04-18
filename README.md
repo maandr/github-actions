@@ -92,12 +92,13 @@ A continuous integration workflow for Node.js that performs tasks such as buildi
 
 #### Inputs
 
-| Name           | Description                                 | Default      |
-|----------------|---------------------------------------------|--------------|
-| `nodeVersion`  | The Node.js version to use.                 | `18.x`       |
-| `lintCommand`  | The command to run to lint the source code. | `pnpm lint`  |
-| `testCommand`  | The command to run to test the source code. | `pnpm test`  |
-| `buildCommand` | The command to build the source code.       | `pnpm build` |
+| Name                | Description                                 | Default      |
+|---------------------|---------------------------------------------|--------------|
+| `nodeVersion`       | The Node.js version to use.                 | `18.x`       |
+| `lintCommand`       | The command to run to lint the source code. | `pnpm lint`  |
+| `testCommand`       | The command to run to test the source code. | `pnpm test`  |
+| `buildCommand`      | The command to build the source code.       | `pnpm build` |
+| `working-directory` | The working directory to use (e.g. ./app).  | `pnpm build` |
 
 #### Usage
 

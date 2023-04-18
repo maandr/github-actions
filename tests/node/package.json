@@ -1,0 +1,10 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo build && exit 0",
+    "lint": "echo lint && exit 0",
+    "test": "echo test && exit 0"
+  }
+}

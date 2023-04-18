@@ -1,4 +1,4 @@
-name: "Composite Actions (Test)"
+name: "Test (Composite Actions)"
 on:
   pull_request:
     paths:
