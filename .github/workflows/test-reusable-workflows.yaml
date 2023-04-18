@@ -4,6 +4,9 @@ on:
     paths-ignore:
       - '.github/actions/**'
       - '.github/workflows/test-composite-actions.yaml'
+      - '.github/dependabot.yaml'
+      - '.gitignore'
+      - 'README.md'
 
 jobs:
   test-ci-node:
