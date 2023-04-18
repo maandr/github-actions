@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/http-get
         with:
           host: google.com
-          path: /search?q=github
+          path: /search
           protocol: https
           statusCode: 200
 
