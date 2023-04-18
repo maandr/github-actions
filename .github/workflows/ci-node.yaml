@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: 📥 Checkout Git Repository
         id: checkout-git-repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.2
 
       - name: ⚙ Install pnpm
         id: install-pnpm
