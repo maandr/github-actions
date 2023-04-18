@@ -1,0 +1,53 @@
+name: "Composite Actions (Test)"
+on:
+  pull_request:
+    paths:
+      - '.github/actions/**'
+      - '.github/workflows/test-actions.yaml'
+
+jobs:
+  test-http-get:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Git Repository
+        uses: actions/checkout@v3.3.0
+
+      - name: 🧪 GET google.com
+        uses: ./.github/actions/http-get
+        with:
+          host: google.com
+          path: /search?q=github
+          protocol: https
+          statusCode: 200
+
+  rsync-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Git Repository
+        uses: actions/checkout@v3.3.0
+
+      - name: ⏫ Upload files
+        uses: ./.github/actions/rsync-upload
+        with:
+          host: ${{ secrets.SSH_DEPLOY_HOST }}
+          username: ${{ secrets.SSH_DEPLOY_USERNAME }}
+          privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
+          source: "./.gitignore"
+          destination: "/tmp/.gitignore"
+          rsyncOptions: "-avz"
+
+  setup-ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Git Repository
+        uses: actions/checkout@v3.3.0
+
+      - name: ⚙️ Setup SSH on runner
+        uses: ./.github/actions/setup-ssh
+        with:
+          host: ${{ secrets.SSH_DEPLOY_HOST }}
+          username: ${{ secrets.SSH_DEPLOY_USERNAME }}
+          privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
+
+      - name: 🧪 Test SSH connection
+        run: ssh ${{ secrets.SSH_DEPLOY_USERNAME }}@${{ secrets.SSH_DEPLOY_HOST }} "echo hello"
