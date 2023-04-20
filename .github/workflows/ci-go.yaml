@@ -1,0 +1,63 @@
+name: CI (Go)
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        type: string
+        description: "The go version to use (e.g. 1.20.3)"
+        required: false
+        default: "1.20.3"
+      lint-command:
+        type: string
+        description: "The command to run to lint the source code (e.g. staticcheck ./...)"
+        required: false
+        default: "staticcheck ./..."
+      test-command:
+        type: string
+        description: "The command to run to test the source code (e.g. go test -race -vet=off ./...)"
+        required: false
+        default: "go test -race -vet=off ./..."
+      build-command:
+        type: string
+        description: "The command to build the source code (e.g. go build -v ./...)"
+        required: false
+        default: "go build -v ./..."
+      working-directory:
+        type: string
+        description: "The working directory to use (e.g. ./app)"
+        required: false
+        default: "./"
+
+
+jobs:
+  build-go:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: 📥 Checkout Git repository
+        uses: actions/checkout@v3.5.2
+
+      - name: ⚙️ Set up Go
+        uses: actions/setup-go@v4.0.0
+        with:
+          go-version: ${{ inputs.go-version }}
+
+      - name: Install staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@2023.1.3
+
+      - name: ✅ Verify dependencies
+        run: go mod verify
+
+      - name: 🧑‍ Run go vet
+        run: go vet ./...
+
+      - name: 👷 Build application
+        run: ${{ inputs.build-command }}
+
+      - name: 🕵️ Lint application
+        run: ${{ inputs.lint-command }}
+
+      - name: 🧪 Test application
+        run: ${{ inputs.test-command }}

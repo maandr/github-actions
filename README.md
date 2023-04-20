@@ -86,6 +86,30 @@ steps:
 
 ## Available Workflows
 
+### ci-go
+
+A continuous integration workflow for Node.js that performs tasks such as building, linting, and testing the source code.
+
+#### Inputs
+
+| Name                | Description                                 | Default                        |
+|---------------------|---------------------------------------------|--------------------------------|
+| `go-version`        | The go version to use.                      | `1.20.3`                       |
+| `lint-command`      | The command to run to lint the source code. | `staticcheck ./...`            |
+| `test-command`      | The command to run to test the source code. | `go test -race -vet=off ./...` |
+| `build-command`     | The command to build the source code.       | `go build -v ./...`            |
+| `working-directory` | The working directory to use (e.g. ./app).  | `./`                           |
+
+#### Usage
+
+```yaml
+jobs:
+  ci-node:
+    uses: maandr/github-actions/.github/workflows/ci-node.yaml@<version>
+    with:
+      nodeVersion: '18.x'
+```
+
 ### ci-node
 
 A continuous integration workflow for Node.js that performs tasks such as building, linting, and testing the source code.
@@ -98,16 +122,20 @@ A continuous integration workflow for Node.js that performs tasks such as buildi
 | `lintCommand`       | The command to run to lint the source code. | `pnpm lint`  |
 | `testCommand`       | The command to run to test the source code. | `pnpm test`  |
 | `buildCommand`      | The command to build the source code.       | `pnpm build` |
-| `working-directory` | The working directory to use (e.g. ./app).  | `pnpm build` |
+| `working-directory` | The working directory to use (e.g. ./app).  | `./`         |
 
 #### Usage
 
 ```yaml
 jobs:
-  ci-node:
-    uses: maandr/github-actions/.github/workflows/ci-node.yaml@<version>
+  ci-go:
+    uses: maandr/github-actions/.github/workflows/ci-go.yaml@<version>
     with:
-      nodeVersion: '18.x'
+      go-version: 1.20.3
+      lint-command: staticcheck ./...
+      test-command: go test -race -vet=off ./...
+      build-command: go build -v ./...
+      working-directory: ./tests/node/
 ```
 
 ### ci-docker-image
