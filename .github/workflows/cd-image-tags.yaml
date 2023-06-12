@@ -32,7 +32,7 @@ jobs:
 
       - name: 🐳 Docker Metadata
         id: docker-meta
-        uses: docker/metadata-action@v4.4.0
+        uses: docker/metadata-action@v4.5.0
         with:
           images: ${{ inputs.image }}
           tags: |
