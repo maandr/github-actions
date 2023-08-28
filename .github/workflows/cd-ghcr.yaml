@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: 📥 Checkout Git Repository
         id: checkout-git-repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.6.0
 
       - name: ⚙️ Setup QEMU
         id: setup-qemu
