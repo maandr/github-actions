@@ -41,7 +41,7 @@ jobs:
 
       - name: ⚙️ Setup Docker Buildx
         id: setup-buildx
-        uses: docker/setup-buildx-action@v2.9.0
+        uses: docker/setup-buildx-action@v3.0.0
 
       - name: 🔐 Login to GitHub Container Registry
         id: ghcr-login
