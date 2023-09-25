@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
     steps:
       - name: 📥 Checkout Git repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.0
 
       - name: ⚙️ Set up Go
         uses: actions/setup-go@v4.0.1

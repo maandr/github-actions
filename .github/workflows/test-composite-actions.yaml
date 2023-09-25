@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout Git Repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.0
 
       - name: 🧪 GET google.com
         uses: ./.github/actions/http-get
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout Git Repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.0
 
       - name: ⏫ Upload files
         uses: ./.github/actions/rsync-upload
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout Git Repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.0
 
       - name: ⚙️ Setup SSH on runner
         uses: ./.github/actions/setup-ssh
