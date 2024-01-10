@@ -7,82 +7,9 @@ A compilation of predefined workflows and actions for GitHub Actions.
 
 ## Available Actions
 
-### setup-ssh
-
-This action sets up an SSH config on the workflow runner, so SSH commands can be executed in any subsequent steps.
-
-#### Inputs
-
-| Name         | Description                          | Default |
-|--------------|--------------------------------------|---------|
-| `host`       | Hostname of the remote host.         | -       |
-| `username`   | Username of the remote host.         | -       |
-| `privateKey` | SSH private key for the remote host. | -       |
-
-#### Usage
-
-```yaml
-steps:
-  - name: ⚙️ Setup SSH on runner
-    id: setup-ssh-on-runner
-    uses: maandr/github-actions/.github/actions/setup-ssh@<version>
-    with:
-      host: ${{ secrets.SSH_DEPLOY_HOST }}
-      username: ${{ secrets.SSH_DEPLOY_USERNAME }}
-      privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
-```
-
-### http-get
-
-This action initiates an HTTP GET request to the designated host and validates the status code of the resulting response.
-
-#### Inputs
-
-| Name         | Description                                       | Default |
-|--------------|---------------------------------------------------|---------|
-| `host`       | Name of the host to send the request to.          | -       |
-| `path`       | Path segment to append to after the request host. | `""`    |
-| `protocol`   | The protocol to use for the request.              | `https` |
-| `statusCode` | The expected status code of the response.         | `200`   |
-
-#### Usage
-
-```yaml
-steps:
-  - name: 🧪 GET google.com
-    uses: maandr/github-actions/.github/actions/http-get@main
-    with:
-      host: google.com
-```
-
-### rsync-upload
-
-Transfers a file or directory from the GitHub runner to a remote host using rsync for uploading.
-
-#### Inputs
-
-| Name           | Description                                                         | Default |
-|----------------|---------------------------------------------------------------------|---------|
-| `host`         | Hostname of the remote host.                                        | -       |
-| `username`     | Username of the remote host.                                        | -       |
-| `privateKey`   | SSH private key for the remote host.                                | -       |
-| `source`       | The file or directory that should be uploaded.                      | -       |
-| `destination`  | The path to which the upload should be directed at the remote host. | -       |
-| `rsyncOptions` | Arguments to pass to the rsync command.                             | `-avz`  |
-
-#### Usage
-
-```yaml
-steps:
-  - name: ⏫ Upload files
-    uses: maandr/github-actions/.github/actions/rsync-upload@main
-    with:
-      host: ${{ secrets.SSH_DEPLOY_HOST }}
-      username: ${{ secrets.SSH_DEPLOY_USERNAME }}
-      privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
-      source: './dist'
-      destination: '/var/www/html'
-```
+- [curl/check](./curl/check/README.md)
+- [rsync/upload](./rsync/upload/README.md)
+- [ssh/setup](./ssh/setup/README.md)
 
 ## Available Workflows
 
