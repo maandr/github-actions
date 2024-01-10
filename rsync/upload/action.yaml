@@ -25,8 +25,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: ⚙️ Setup SSH on runner
-      id: setup-ssh-on-runner
+    - name: "⚙️ Setup SSH on runner"
       shell: bash
       run: |
         mkdir -p ~/.ssh/
@@ -40,7 +39,6 @@ runs:
           StrictHostKeyChecking no
         END
 
-    - name: ⏫ (SSH) Transfer files
-      id: transfer-files
+    - name: "⏫ (SSH) Transfer files"
       shell: bash
       run: rsync ${{ inputs.rsync_options }} ${{ inputs.source }} ${{ inputs.host }}:${{ inputs.destination }}

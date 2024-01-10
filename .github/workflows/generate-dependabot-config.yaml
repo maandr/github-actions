@@ -1,0 +1,57 @@
+name: "Update Dependabot config"
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/*.ya?ml"
+      - "**/action.ya?ml"
+
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
+
+jobs:
+  generate-dependabot-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "⏬ Checkout git repository"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: "📝 Create basic dependabot config"
+        shell: bash
+        run: |
+          echo "# THIS FILE IS GENERATED AUTOMATICALLY BY THE generate-dependabot-config WORKFLOW" > .github/dependabot.yaml
+          echo "version: 2" >> .github/dependabot.yaml
+          yq -i '
+            .updates[0].package-ecosystem = "github-actions" |
+            .updates[0].directory = "/" |
+            .updates[0].schedule.interval = "weekly"
+          ' .github/dependabot.yaml
+
+      - name: "📝 Append each composite action to dependabot config"
+        shell: bash
+        run: |
+          shopt -s nullglob globstar
+          for action in **/action.{yml,yaml}; do
+            dirpath=$(dirname "$action") yq e '
+              .updates += [{"package-ecosystem": "github-actions", "directory": env(dirpath), "schedule": {"interval": "weekly"}}]
+            ' -i .github/dependabot.yaml
+          done
+
+      - name: "⏫ Commit and push changes"
+        uses: ./git/commit-and-push
+        with:
+          commit_message: "chore(workflows): update dependabot config"
+          commit_user_name: ${{ github.actor }}
+          push_options: "--force"
