@@ -1,19 +1,36 @@
 name: "Test (Composite Actions)"
 on:
   pull_request:
+    branches: [ main ]
     paths:
-      - '.github/actions/**'
-      - '.github/workflows/test-actions.yaml'
+      - "**/action.ya?ml"
+      - ".github/workflows/test-composite-actions.ya?ml"
+
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test-http-get:
+  curl-check:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout Git Repository
-        uses: actions/checkout@v3.5.2
+      - name: "📥 Checkout Git Repository"
+        uses: actions/checkout@v4
 
-      - name: 🧪 GET google.com
-        uses: ./.github/actions/http-get
+      - name: "🧪 GET google.com"
+        uses: ./curl/uptime-check
         with:
           host: google.com
           path: /search
@@ -23,31 +40,31 @@ jobs:
   rsync-upload:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout Git Repository
-        uses: actions/checkout@v3.5.2
+      - name: "📥 Checkout Git Repository"
+        uses: actions/checkout@v4
 
-      - name: ⏫ Upload files
-        uses: ./.github/actions/rsync-upload
+      - name: "⏫ Upload files"
+        uses: ./rsync/upload
         with:
           host: ${{ secrets.SSH_DEPLOY_HOST }}
           username: ${{ secrets.SSH_DEPLOY_USERNAME }}
           privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
-          source: "./.gitignore"
-          destination: "/tmp/.gitignore"
-          rsyncOptions: "-avz"
+          source: ./.gitignore
+          destination: /tmp/.gitignore
+          rsyncOptions: -avz
 
-  setup-ssh:
+  ssh-setup:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout Git Repository
-        uses: actions/checkout@v3.5.2
+      - name: "📥 Checkout Git Repository"
+        uses: actions/checkout@v4
 
-      - name: ⚙️ Setup SSH on runner
-        uses: ./.github/actions/setup-ssh
+      - name: "⚙️ Setup SSH on runner"
+        uses: ./ssh/setup
         with:
           host: ${{ secrets.SSH_DEPLOY_HOST }}
           username: ${{ secrets.SSH_DEPLOY_USERNAME }}
-          privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
+          private_key: ${{ secrets.SSH_DEPLOY_KEY }}
 
-      - name: 🧪 Test SSH connection
+      - name: "🧪 Test SSH connection"
         run: ssh ${{ secrets.SSH_DEPLOY_USERNAME }}@${{ secrets.SSH_DEPLOY_HOST }} "echo hello"

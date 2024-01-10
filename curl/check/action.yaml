@@ -1,0 +1,27 @@
+name: "curl check"
+description: "Initiates an HTTP GET request to the designated host and validates the status code of the resulting response."
+
+inputs:
+  host:
+    description: "Name of the host to send the request to (e.g. google.com)"
+    required: true
+  path:
+    description: "Path segment to append to after the request host (e.g /api/status)"
+    required: false
+    default: ""
+  protocol:
+    description: "The protocol to use for the request. (e.g. https)"
+    required: false
+    default: "https"
+  status_code:
+    description: "The expected status code of the response"
+    required: false
+    default: "200"
+
+runs:
+  using: composite
+  steps:
+    - name: "🧪 GET ${{ inputs.protocol }}://${{ inputs.host }}"
+      shell: bash
+      run: |
+        curl -L -s -o /dev/null -w "%{http_code}" ${{ inputs.protocol }}://${{ inputs.host }}${{ inputs.path }} | grep -q "${{ inputs.status_code }}" || exit 1
