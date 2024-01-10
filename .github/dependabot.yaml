@@ -1,6 +1,23 @@
+# THIS FILE IS GENERATED AUTOMATICALLY BY THE generate-dependabot-config WORKFLOW
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: curl/check
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: git/commit-and-push
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: rsync/upload
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: ssh/setup
+    schedule:
+      interval: weekly
