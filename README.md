@@ -8,6 +8,7 @@ A compilation of predefined workflows and actions for GitHub Actions.
 ## Available Actions
 
 - [curl/check](./curl/check/README.md)
+- [git/commit-and-push](./git/commit-and-push/README.md)
 - [rsync/upload](./rsync/upload/README.md)
 - [ssh/setup](./ssh/setup/README.md)
 

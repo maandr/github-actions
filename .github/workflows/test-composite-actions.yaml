@@ -26,21 +26,39 @@ jobs:
   curl-check:
     runs-on: ubuntu-latest
     steps:
-      - name: "📥 Checkout Git Repository"
+      - name: "⏬ Checkout git repository"
         uses: actions/checkout@v4
 
       - name: "🧪 GET google.com"
-        uses: ./curl/uptime-check
+        uses: ./curl/check
         with:
           host: google.com
           path: /search
           protocol: https
-          statusCode: 200
+          status_code: 200
+
+  git-commit-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "⏬ Checkout git repository"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      
+      - name: "📝 Change something"
+        run: |
+          echo "Test" >> TEST.md
+
+      - name: "⏫ Commit and push changes"
+        uses: ./git/commit-and-push
+        with:
+          commit_message: "Added Test.md"
+          push_options: "--dry-run"
 
   rsync-upload:
     runs-on: ubuntu-latest
     steps:
-      - name: "📥 Checkout Git Repository"
+      - name: "⏬ Checkout git repository"
         uses: actions/checkout@v4
 
       - name: "⏫ Upload files"
@@ -48,15 +66,15 @@ jobs:
         with:
           host: ${{ secrets.SSH_DEPLOY_HOST }}
           username: ${{ secrets.SSH_DEPLOY_USERNAME }}
-          privateKey: ${{ secrets.SSH_DEPLOY_KEY }}
+          private_key: ${{ secrets.SSH_DEPLOY_KEY }}
           source: ./.gitignore
           destination: /tmp/.gitignore
-          rsyncOptions: -avz
+          rsync_options: -avz
 
   ssh-setup:
     runs-on: ubuntu-latest
     steps:
-      - name: "📥 Checkout Git Repository"
+      - name: "⏬ Checkout git repository"
         uses: actions/checkout@v4
 
       - name: "⚙️ Setup SSH on runner"
@@ -65,6 +83,3 @@ jobs:
           host: ${{ secrets.SSH_DEPLOY_HOST }}
           username: ${{ secrets.SSH_DEPLOY_USERNAME }}
           private_key: ${{ secrets.SSH_DEPLOY_KEY }}
-
-      - name: "🧪 Test SSH connection"
-        run: ssh ${{ secrets.SSH_DEPLOY_USERNAME }}@${{ secrets.SSH_DEPLOY_HOST }} "echo hello"

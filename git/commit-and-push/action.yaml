@@ -1,0 +1,31 @@
+name: "git commit and push changes"
+description: "Commits and pushes the current changes in a git repository. Prior to running this action make sure you checked out a repository and applied the desired changes."
+
+inputs:
+  commit_message:
+    description: "The message to use for the commit"
+    required: true
+  commit_user_email:
+    description: "The email to use for the commit"
+    required: false
+    default: "noreply@github.com"
+  commit_user_name:
+    description: "The user name to use for the commit"
+    required: false
+    default: "GitHub Actions"
+  push_options:
+    description: "Options to use for the push command"
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: "⏫ Commit and push changes"
+      shell: bash
+      run: |
+        git config --global user.email "${{ inputs.commit_user_email }}"
+        git config --global user.name "${{ inputs.commit_user_name }}"
+        git add -A
+        git commit -m "${{ inputs.commit_message }}"
+        git push ${{ inputs.push_options }}
