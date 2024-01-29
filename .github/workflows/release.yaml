@@ -1,0 +1,43 @@
+name: "Release"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "version.yaml"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "⏬ Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "⚙️ Install yq"
+        shell: bash
+        run: |
+          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && \
+            chmod +x /usr/bin/yq
+
+      - name: "🧮 Get Release Version"
+        shell: bash
+        run: |
+          VERSION=$(cat version.yaml | yq .version)
+          MAJOR_VERSION=${VERSION%%.*}
+
+          echo "VERSION=v$VERSION" >> $GITHUB_ENV
+          echo "MAJOR_VERSION=v$MAJOR_VERSION" >> $GITHUB_ENV
+
+      - name: "🏷️ Create Git Tags"
+        shell: bash
+        run: |
+          git tag --force ${{ env.VERSION }}
+          git tag --force ${{ env.MAJOR_VERSION }}
+          git push --tags --force
+
+      - name: "🚀 Create GitHub Release"
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: ${{ env.VERSION }}
+          generate_release_notes: true
