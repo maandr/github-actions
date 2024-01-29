@@ -20,7 +20,7 @@ None.
 ```yaml
 steps:
   - name: 🧪 GET google.com
-    uses: maandr/github-actions/curl/uptime-check@<version>
+    uses: maandr/github-actions/curl/check@<version>
     with:
       host: google.com
       protocol: https
