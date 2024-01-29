@@ -24,8 +24,12 @@ runs:
     - name: "⏫ Commit and push changes"
       shell: bash
       run: |
-        git config --global user.email "${{ inputs.commit_user_email }}"
-        git config --global user.name "${{ inputs.commit_user_name }}"
-        git add -A
-        git commit -m "${{ inputs.commit_message }}"
-        git push ${{ inputs.push_options }}
+        if [[ `git status --porcelain` ]]; then
+          git config --global user.email "${{ inputs.commit_user_email }}"
+          git config --global user.name "${{ inputs.commit_user_name }}"
+          git add -A
+          git commit -m "${{ inputs.commit_message }}"
+          git push ${{ inputs.push_options }}
+        else
+          echo "There are no changes, skipping commit and push."
+        fi
