@@ -1,4 +1,4 @@
-name: "Update Dependabot config"
+name: "Dependabot (Update Config)"
 
 on:
   pull_request:

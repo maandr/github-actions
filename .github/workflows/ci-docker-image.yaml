@@ -1,4 +1,4 @@
-name: CI (Docker Image)
+name: "CI (Docker Image)"
 on:
   workflow_call:
     inputs:
@@ -9,29 +9,35 @@ on:
         default: "./Dockerfile"
       context:
         type: string
-        description: "Path of the Docker build context (e.g. ./)"
+        description: "Path of the Docker build context"
         required: false
         default: "./"
+      timeout_minutes:
+        type: string
+        description: "Duration the workflow is allowed to run"
+        required: false
+        default: "10"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     steps:
-      - name: 📥 Checkout Git Repository
-        id: checkout-git-repository
-        uses: actions/checkout@v3.5.2
+      - name: "⏬ Checkout Git Repository"
+        uses: actions/checkout@v4
 
-      - name: ⚙️ Setup QEMU
-        id: setup-qemu
-        uses: docker/setup-qemu-action@v2.2.0
+      - name: "⚙️ Setup QEMU"
+        uses: docker/setup-qemu-action@v3
 
-      - name: ⚙️ Setup Docker Buildx
-        id: setup-buildx
-        uses: docker/setup-buildx-action@v2.9.0
+      - name: "⚙️ Setup Docker Buildx"
+        uses: docker/setup-buildx-action@v3
 
-      - name: 🏗️ Build Docker Image
-        id: build-docker-image
-        uses: docker/build-push-action@v4.0.0
+      - name: "🐳 Build Docker Image"
+        uses: docker/build-push-action@v5
         with:
           push: false
           context: ${{ inputs.context }}

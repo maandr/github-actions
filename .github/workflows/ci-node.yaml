@@ -2,73 +2,74 @@ name: CI (Node)
 on:
   workflow_call:
     inputs:
-      nodeVersion:
+      node_version:
         type: string
         description: "The Node version to use (e.g. 18.x)"
-        required: false
-        default: "18.x"
-      lintCommand:
+        required: true
+      lint_command:
         type: string
         description: "The command to run to lint the source code (e.g. pnpm lint)"
         required: false
         default: "pnpm lint"
-      testCommand:
+      test_command:
         type: string
         description: "The command to run to test the source code (e.g. pnpm test)"
         required: false
         default: "pnpm test"
-      buildCommand:
+      build_command:
         type: string
         description: "The command to build the source code (e.g. pnpm build)"
         required: false
         default: "pnpm build"
-      working-directory:
+      working_dir:
         type: string
         description: "The working directory to use (e.g. ./app)"
         required: false
         default: "./"
+      timeout_minutes:
+        type: string
+        description: "Duration the workflow is allowed to run"
+        required: false
+        default: "10"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-node:
+  ci-node:
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     defaults:
       run:
-        working-directory: ${{ inputs.working-directory }}
+        working-directory: ${{ inputs.working_dir }}
     steps:
-      - name: 📥 Checkout Git Repository
-        id: checkout-git-repository
-        uses: actions/checkout@v3.5.2
+      - name: "⏬ Checkout Git Repository"
+        uses: actions/checkout@v4
 
-      - name: ⚙ Install pnpm
-        id: install-pnpm
-        uses: pnpm/action-setup@v2.2.4
+      - name: "⚙ Install pnpm"
+        uses: pnpm/action-setup@v2.4.0
         with:
-          version: 7
+          version: 8
 
-      - name: ⚙️ Setup Node ${{ inputs.nodeVersion }}
-        id: setup-node
-        uses: actions/setup-node@v3
+      - name: "⚙️ Setup Node ${{ inputs.node_version }}"
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ inputs.nodeVersion }}
+          node-version: ${{ inputs.node_version }}
           cache: 'pnpm'
-          cache-dependency-path: ${{ inputs.working-directory }}/pnpm-lock.yaml
+          cache-dependency-path: ${{ inputs.working_dir }}/pnpm-lock.yaml
 
-      - name: 📦 Install Dependencies
-        id: install-dependencies
+      - name: "📦 Install Dependencies"
         run: pnpm install --no-frozen-lockfile
 
-      - name: 🏗️ Build Application
+      - name: "🏗️ Build Application"
         if: always()
-        id: build-app
-        run: ${{ inputs.buildCommand }}
+        run: ${{ inputs.build_command }}
 
-      - name: 🕵️ Lint Source Code
+      - name: "🕵️ Lint Source Code"
         if: always()
-        id: lint-app
-        run: ${{ inputs.lintCommand }}
+        run: ${{ inputs.lint_command }}
 
-      - name: 🧪 Tests Application
+      - name: "🧪 Tests Application"
         if: always()
-        id: test-app
-        run: ${{ inputs.testCommand }}
+        run: ${{ inputs.test_command }}

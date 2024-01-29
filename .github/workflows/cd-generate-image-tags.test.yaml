@@ -1,0 +1,17 @@
+name: "🧪 Test (CD image-tags)"
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/cd-image-tags.test.yaml"
+      - ".github/workflows/cd-image-tags.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cd-generate-image-tags:
+    uses: ./.github/workflows/cd-generate-image-tags.yaml
+    with:
+      image: ghcr.io/${{ github.repository }}
+      timeout_minutes: 5

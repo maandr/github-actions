@@ -1,0 +1,51 @@
+name: "CD (Generate Image Tags)"
+on:
+  workflow_call:
+    inputs:
+      image:
+        type: string
+        description: "The name of the Docker image to generate tags for (e.g. ghcr.io/username/repository)"
+        required: true
+      timeout_minutes:
+        type: string
+        description: "Duration the workflow is allowed to run"
+        required: false
+        default: "5"
+
+    outputs:
+      tags:
+        description: "A comma-separated list of the tags"
+        value: ${{ jobs.generate-image-tags.outputs.tags }}
+      labels:
+        description: "A comma-separated list of the labels"
+        value: ${{ jobs.generate-image-tags.outputs.labels }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-image-tags:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    outputs:
+        tags: ${{ steps.docker-metadata.outputs.tags }}
+        labels: ${{ steps.docker-metadata.outputs.labels }}
+    steps:
+      - name: "⏬ Checkout Git Repository"
+        uses: actions/checkout@v4
+
+      - name: "🏷️ Generate a sortable image tag"
+        run: echo "SORTABLE_IMAGE_TAG=${{ github.ref_name }}-$(git rev-parse --short HEAD)-$(date +%F.%H%M%S)" >> $GITHUB_ENV
+
+      - name: "🐳 Docker Metadata"
+        id: docker-metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ inputs.image }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=ref,event=branch
+            type=raw,value=${{ env.SORTABLE_IMAGE_TAG }}
