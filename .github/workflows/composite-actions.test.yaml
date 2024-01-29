@@ -4,7 +4,7 @@ on:
     branches: [ main ]
     paths:
       - "**/action.ya?ml"
-      - ".github/workflows/test-composite-actions.ya?ml"
+      - ".github/workflows/composite-actions.test.ya?ml"
 
 permissions:
   actions: write

@@ -1,0 +1,21 @@
+name: "🧪 Test (CI Node)"
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/ci-node.test.yaml"
+      - ".github/workflows/ci-node.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-node:
+    uses: ./.github/workflows/ci-node.yaml
+    with:
+      node_version: 18.x
+      lint_command: pnpm lint
+      test_command: pnpm test
+      build_command: pnpm build
+      working_dir: ./example-projects/node/
+      timeout_minutes: 10

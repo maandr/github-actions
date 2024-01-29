@@ -1,0 +1,21 @@
+name: "🧪 Test (CI Go)"
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/ci-go.test.yaml"
+      - ".github/workflows/ci-go.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-go:
+    uses: ./.github/workflows/ci-go.yaml
+    with:
+      go_version: 1.20.3
+      lint_command: staticcheck ./...
+      test_command: go test -race -vet=off ./...
+      build_command: go build -v ./...
+      working_dir: ./example-projects/go/
+      timeout_minutes: 10
