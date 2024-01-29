@@ -20,10 +20,6 @@ on:
         description: "A comma-separated list of the labels"
         value: ${{ jobs.generate-image-tags.outputs.labels }}
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   generate-image-tags:
     runs-on: ubuntu-latest

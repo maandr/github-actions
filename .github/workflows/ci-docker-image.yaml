@@ -18,10 +18,6 @@ on:
         required: false
         default: "10"
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
