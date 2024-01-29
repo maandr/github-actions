@@ -25,7 +25,7 @@ concurrency:
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.timeout_minutes }}
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     steps:
       - name: "⏬ Checkout Git Repository"
         uses: actions/checkout@v4

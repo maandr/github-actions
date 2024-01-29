@@ -27,7 +27,7 @@ concurrency:
 jobs:
   generate-image-tags:
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.timeout_minutes }}
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     outputs:
         tags: ${{ steps.docker-metadata.outputs.tags }}
         labels: ${{ steps.docker-metadata.outputs.labels }}
