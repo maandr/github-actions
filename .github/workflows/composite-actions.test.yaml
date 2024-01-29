@@ -19,7 +19,7 @@ permissions:
   statuses: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-composite-actions
   cancel-in-progress: true
 
 jobs:

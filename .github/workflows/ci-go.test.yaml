@@ -6,7 +6,7 @@ on:
       - ".github/workflows/ci-go.yaml"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-ci-go
   cancel-in-progress: true
 
 jobs:

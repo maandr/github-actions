@@ -19,6 +19,10 @@ permissions:
   security-events: write
   statuses: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-generate-dependabot-config
+  cancel-in-progress: true
+
 jobs:
   generate-dependabot-config:
     runs-on: ubuntu-latest

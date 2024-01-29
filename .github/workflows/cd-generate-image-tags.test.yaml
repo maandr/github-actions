@@ -6,7 +6,7 @@ on:
       - ".github/workflows/cd-image-tags.yaml"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-cd-generate-image-tags
   cancel-in-progress: true
 
 jobs:
