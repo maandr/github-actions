@@ -32,10 +32,6 @@ on:
         description: "Personal Access Token for GitHub Container Registry"
         required: true
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-and-push-to-ghcr:
     runs-on: ubuntu-latest

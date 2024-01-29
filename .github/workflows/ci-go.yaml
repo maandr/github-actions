@@ -32,10 +32,6 @@ on:
         required: false
         default: "10"
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   ci-go:
     runs-on: ubuntu-latest
