@@ -39,7 +39,7 @@ concurrency:
 jobs:
   ci-node:
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.timeout_minutes }}
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     defaults:
       run:
         working-directory: ${{ inputs.working_dir }}
