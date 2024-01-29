@@ -1,4 +1,4 @@
-name: "🧪 Test (CI Docker Image)"
+name: "🧪 Test (ci-docker-image)"
 on:
   pull_request:
     paths:

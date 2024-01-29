@@ -1,4 +1,4 @@
-name: "Test (Composite Actions)"
+name: "🧪 Test (Composite Actions)"
 on:
   pull_request:
     branches: [ main ]

@@ -1,4 +1,4 @@
-name: "🧪 Test (CD image-tags)"
+name: "🧪 Test (cd-generate-image-tags)"
 on:
   pull_request:
     paths:
