@@ -1,4 +1,4 @@
-name: "🧪 Test (CI Node)"
+name: "🧪 Test (ci-node)"
 on:
   pull_request:
     paths:

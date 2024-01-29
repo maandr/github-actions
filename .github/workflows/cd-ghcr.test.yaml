@@ -1,4 +1,4 @@
-name: "🧪 Test (CD GHCR)"
+name: "🧪 Test (cd-ghcr)"
 on:
   pull_request:
     paths:
