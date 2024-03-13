@@ -42,7 +42,7 @@ jobs:
           git push --tags --force
 
       - name: "🚀 Create GitHub Release"
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2.0.3
         with:
           tag_name: ${{ env.VERSION }}
           name: ${{ env.VERSION }}
