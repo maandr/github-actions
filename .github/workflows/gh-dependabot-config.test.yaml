@@ -5,6 +5,9 @@ on:
       - ".github/workflows/gh-dependabot-config.test.yaml"
       - ".github/workflows/gh-dependabot-config.yaml"
 
+permissions:
+  contents: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-gh-dependabot-config
   cancel-in-progress: true
