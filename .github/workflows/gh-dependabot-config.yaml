@@ -10,9 +10,14 @@ on:
         default: ".github/dependabot.yaml"
       schedule:
         type: string
-        description: "The schedule to use (e.g. daily, weekly, monthly)"
+        description: "The schedule to use (default: weekly)"
         required: true
         default: "weekly"
+      base_branch:
+        type: string
+        description: "The base branch to create the pull request against (default: main)"
+        required: true
+        default: "main"
 
 permissions:
   contents: write
@@ -96,6 +101,7 @@ jobs:
         with:
           add-paths: ${{ inputs.output_file }}
           commit-message: "chore: update dependabot config"
+          base: ${{ inputs.base_branch }}
           branch: "chore/update-dependabot-config"
           delete-branch: true
           title: "chore: update dependabot config"
