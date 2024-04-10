@@ -6,6 +6,7 @@ on:
       - ".github/workflows/gh-dependabot-config.yaml"
 
 permissions:
+  contents: write
   pull-requests: write
 
 concurrency:
