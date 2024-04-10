@@ -17,5 +17,4 @@ jobs:
   gh-dependabot-config:
     uses: ./.github/workflows/gh-dependabot-config.yaml
     with:
-      output_file: .github/dependabot.yaml
       schedule: weekly

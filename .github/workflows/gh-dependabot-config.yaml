@@ -10,7 +10,7 @@ on:
         default: ".github/dependabot.yaml"
       schedule:
         type: string
-        description: "The schedule to use (default: weekly)"
+        description: "The schedule dependabot should use (default: weekly)"
         required: false
         default: "weekly"
       base_branch:
