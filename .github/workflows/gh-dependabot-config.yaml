@@ -6,17 +6,17 @@ on:
       output_file:
         type: string
         description: "The file to generate (default: .github/dependabot.yaml)"
-        required: true
+        required: false
         default: ".github/dependabot.yaml"
       schedule:
         type: string
         description: "The schedule to use (default: weekly)"
-        required: true
+        required: false
         default: "weekly"
       base_branch:
         type: string
         description: "The base branch to create the pull request against (default: main)"
-        required: true
+        required: false
         default: "main"
 
 permissions:
