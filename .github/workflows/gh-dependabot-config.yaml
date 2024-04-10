@@ -100,9 +100,9 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           add-paths: ${{ inputs.output_file }}
-          commit-message: "chore: update dependabot config"
           base: ${{ inputs.base_branch }}
           branch: "chore/update-dependabot-config"
+          commit-message: "chore: update dependabot config"
           delete-branch: true
           title: "chore: update dependabot config"
           body: |
