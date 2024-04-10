@@ -1,49 +1,59 @@
-name: "Release"
-
+name: "🚀 Release"
 on:
   push:
     branches: [ main ]
     paths:
-      - "version.yaml"
+      - "version"
+  workflow_dispatch:
 
 permissions:
-  actions: write
-  checks: write
   contents: write
-  deployments: write
-  issues: write
-  packages: write
-  pull-requests: write
-  repository-projects: write
-  security-events: write
-  statuses: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-release
+  cancel-in-progress: true
 
 jobs:
-  release:
+  version:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      version_minor: ${{ steps.get-version.outputs.version_minor }}
+      version_major: ${{ steps.get-version.outputs.version_major }}
     steps:
-      - name: "⏬ Checkout Repository"
+      - name: "⏬ Checkout Git Repository"
         uses: actions/checkout@v4
 
       - name: "🧮 Get Release Version"
+        id: get-version
         shell: bash
         run: |
-          VERSION=$(awk -F ': ' '{ print $2 }' version.yaml)
-          MAJOR_VERSION=${VERSION%%.*}
+          version=$(cat version)
+          version_minor=${version%.*}
+          version_major=${version%%.*}
 
-          echo "VERSION=v$VERSION" >> $GITHUB_ENV
-          echo "MAJOR_VERSION=v$MAJOR_VERSION" >> $GITHUB_ENV
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "version_minor=$version_minor" >> "$GITHUB_OUTPUT"
+          echo "version_major=$version_major" >> "$GITHUB_OUTPUT"
+
+  release:
+    needs: [version]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "⏬ Checkout Git Repository"
+        uses: actions/checkout@v4
 
       - name: "🏷️ Create Git Tags"
         shell: bash
         run: |
-          git tag --force ${{ env.VERSION }}
-          git tag --force ${{ env.MAJOR_VERSION }}
+          git tag --force v${{ needs.version.outputs.version }}
+          git tag --force v${{ needs.version.outputs.version_minor }}
+          git tag --force v${{ needs.version.outputs.version_major }}
           git push --tags --force
 
       - name: "🚀 Create GitHub Release"
         uses: softprops/action-gh-release@v2.0.4
         with:
-          tag_name: ${{ env.VERSION }}
-          name: ${{ env.VERSION }}
+          tag_name: v${{ needs.version.outputs.version }}
+          name: v${{ needs.version.outputs.version }}
           generate_release_notes: true
