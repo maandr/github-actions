@@ -19,6 +19,7 @@ spec:
           image: nginx:1.25.4-alpine
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
