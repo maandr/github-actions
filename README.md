@@ -186,3 +186,33 @@ jobs:
 | `schedule`    | The schedule dependabot should use                 | `weekly`                  |
 | `base_branch` | The base branch to create the pull request against | `main`                    |
 
+### ci-gitops
+
+A continuous delivery workflow designed for GitOps projects. The workflow is designed for projects that use [Kustomize](https://kustomize.io/) to manage Kubernetes resources. It detects kustomization files in the working directory (`working_dir`) and performs the following checks on each subdirectory that contains a kustomization file:
+
+- **build**: It runs `kustomize build` to validate the kustomization file.
+- **validate**: It runs [kubeconform](https://github.com/yannh/kubeconform) to validate all Kubernetes manifests in the directory.
+- **lint**: It runs [trivy](https://github.com/aquasecurity/trivy) to scan all Kubernetes manifests in the directory for vulnerabilities.
+
+The workflow utilizes a custom action runner [`ghcr.io/maandr/action-runners/gitops`](https://github.com/maandr/action-runners/pkgs/container/action-runners%2Fgitops) that contains the necessary tools to perform the checks.
+
+#### Usage
+
+```yaml
+jobs:
+  ci-gitops:
+    uses: maandr/github-actions/.github/workflows/ci-gitops@<version>
+    with:
+      working_dir: ./example-projects/kubernetes
+      kubernetes_version: 1.27.4
+      trivy_severity: "CRITICAL,HIGH"
+```
+
+#### Inputs
+
+| Name                 | Description                                                                 | Default                |
+|----------------------|-----------------------------------------------------------------------------|------------------------|
+| `working_dir`        | The working directory to use                                                | -                      |
+| `kubernetes_version` | The Kubernetes version to use (e.g. 1.27.4)                                 | -                      |
+| `trivy_severity`     | A comma-separated list of trivy severity levels to use (e.g. CRITICAL,HIGH) | `CRITICAL,HIGH,MEDIUM` |
+| `timeout_minutes`    | Duration the workflow is allowed to run                                     | `10`                   |
