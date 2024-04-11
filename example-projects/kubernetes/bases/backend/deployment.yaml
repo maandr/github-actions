@@ -24,4 +24,4 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           ports:
-            - containerPort: 8001
+            - containerPort: "8001"
