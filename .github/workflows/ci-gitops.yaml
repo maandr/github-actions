@@ -1,0 +1,55 @@
+name: "CI (GitOps)"
+on:
+  workflow_call:
+    inputs:
+      working_dir:
+        type: string
+        description: "The working directory to use (e.g. ./prod)"
+        required: true
+      kubernetes_version:
+        type: string
+        description: "The Kubernetes version to use (e.g. 1.27.4)"
+        required: true
+      trivy_severity:
+        type: string
+        description: "The Trivy severity to use (e.g. CRITICAL,HIGH)"
+        required: false
+        default: "CRITICAL,HIGH,MEDIUM"
+      timeout_minutes:
+        type: string
+        description: "Duration the workflow is allowed to run"
+        required: false
+        default: "10"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    container: ghcr.io/maandr/action-runners/gitops:1
+    defaults:
+      run:
+        shell: bash
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    steps:
+      - name: "⏬ Checkout Git Repository"
+        uses: actions/checkout@v4
+
+      - name: "🏗️ Build ${{ inputs.working_dir }} manifests"
+        run: |
+          krmc build ${{ inputs.working_dir }} \
+            --verbose \
+            --kubernetes-version=${{ inputs.kubernetes_version }} \
+            --trivy-severity=${{ inputs.trivy_severity }}
+
+      - name: "✅ Validate ${{ inputs.working_dir }} manifests"
+        run: |
+          krmc validate ${{ inputs.working_dir }} \
+            --verbose \
+            --kubernetes-version=${{ inputs.kubernetes_version }} \
+            --trivy-severity=${{ inputs.trivy_severity }}
+
+      - name: "🕵️ Lint ${{ inputs.working_dir }} manifests"
+        run: |
+          krmc lint ${{ inputs.working_dir }} \
+            --verbose \
+            --kubernetes-version=${{ inputs.kubernetes_version }} \
+            --trivy-severity=${{ inputs.trivy_severity }}
