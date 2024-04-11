@@ -1,0 +1,18 @@
+name: "🧪 Test (ci-gitops)"
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/ci-gitops.test.yaml"
+      - ".github/workflows/ci-gitops.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-ci-go
+  cancel-in-progress: true
+
+jobs:
+  ci-gitops:
+    uses: ./.github/workflows/ci-gitops.yaml
+    with:
+      working_dir: ./example-projects/kubernetes
+      kubernetes_version: 1.27.4
+      trivy_severity: "CRITICAL,HIGH"
