@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - frontend
 - backend
-- namespaces.yaml
+- namespace.yaml
