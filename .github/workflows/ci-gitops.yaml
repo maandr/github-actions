@@ -33,23 +33,9 @@ jobs:
       - name: "⏬ Checkout Git Repository"
         uses: actions/checkout@v4
 
-      - name: "🏗️ Build ${{ inputs.working_dir }} manifests"
+      - name: "🕵️ Check ${{ inputs.working_dir }} manifests"
         run: |
-          krmc build ${{ inputs.working_dir }} \
-            --verbose \
-            --kubernetes-version=${{ inputs.kubernetes_version }} \
-            --trivy-severity=${{ inputs.trivy_severity }}
-
-      - name: "✅ Validate ${{ inputs.working_dir }} manifests"
-        run: |
-          krmc validate ${{ inputs.working_dir }} \
-            --verbose \
-            --kubernetes-version=${{ inputs.kubernetes_version }} \
-            --trivy-severity=${{ inputs.trivy_severity }}
-
-      - name: "🕵️ Lint ${{ inputs.working_dir }} manifests"
-        run: |
-          krmc lint ${{ inputs.working_dir }} \
+          krmc check ${{ inputs.working_dir }} \
             --verbose \
             --kubernetes-version=${{ inputs.kubernetes_version }} \
             --trivy-severity=${{ inputs.trivy_severity }}
