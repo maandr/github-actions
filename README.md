@@ -205,15 +205,21 @@ jobs:
     uses: maandr/github-actions/.github/workflows/ci-gitops@<version>
     with:
       working_dir: ./example-projects/kubernetes
+      ignore_dirs: .github,tests
+      kubeconform_ignore_filename_patterns: ".*gotk-.*,.*.sops.yaml"
+      kubeconform_skip_resources: "Secret"
       kubernetes_version: 1.27.4
       trivy_severity: "CRITICAL,HIGH"
 ```
 
 #### Inputs
 
-| Name                 | Description                                                                 | Default                |
-|----------------------|-----------------------------------------------------------------------------|------------------------|
-| `working_dir`        | The working directory to use                                                | -                      |
-| `kubernetes_version` | The Kubernetes version to use (e.g. 1.27.4)                                 | -                      |
-| `trivy_severity`     | A comma-separated list of trivy severity levels to use (e.g. CRITICAL,HIGH) | `CRITICAL,HIGH,MEDIUM` |
-| `timeout_minutes`    | Duration the workflow is allowed to run                                     | `10`                   |
+| Name                                  | Description                                                                                                              | Default                |
+|---------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------|
+| `working_dir`                         | A comma-separated list of directories to use (e.g. ./prod,./staging)                                                     | -                      |
+| `ignore_dirs`                         | A comma-separated list of directory names to ignore (e.g. flux-system)                                                   | none                   |
+| `kubeconform_ignore_filename_patterns` | A comma-separated list of regular expression specifying paths that kubeconform will ignore (e.g. .*gotk-.*,.*.sops.yaml) | none                   |
+| `kubeconform_skip_resources`          | A comma-separated list of kinds or GVKs kubeconform will ignore (e.g. Secret,ConfigMap)                                  | none                   |
+| `kubernetes_version`                  | The Kubernetes version to use (e.g. 1.27.4)                                                                              | -                      |
+| `trivy_severity`                      | A comma-separated list of trivy severity levels to use (e.g. CRITICAL,HIGH)                                              | `CRITICAL,HIGH,MEDIUM` |
+| `timeout_minutes`                     | Duration the workflow is allowed to run                                                                                  | `10`                   |

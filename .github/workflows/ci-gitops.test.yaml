@@ -14,5 +14,8 @@ jobs:
     uses: ./.github/workflows/ci-gitops.yaml
     with:
       working_dir: ./example-projects/kubernetes
+      ignore_dirs: .github,tests
+      kubeconform_ignore_filename_patterns: ".*gotk-.*,.*.sops.yaml"
+      kubeconform_skip_resources: "Secret"
       kubernetes_version: 1.27.4
       trivy_severity: "CRITICAL,HIGH"
