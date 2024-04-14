@@ -204,7 +204,7 @@ jobs:
   ci-gitops:
     uses: maandr/github-actions/.github/workflows/ci-gitops@<version>
     with:
-      working_dir: ./example-projects/kubernetes
+      working_dirs: ./example-projects/kubernetes
       ignore_dirs: .github,tests
       kubeconform_ignore_filename_patterns: ".*gotk-.*,.*.sops.yaml"
       kubeconform_skip_resources: "Secret"

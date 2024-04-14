@@ -13,7 +13,7 @@ jobs:
   ci-gitops:
     uses: ./.github/workflows/ci-gitops.yaml
     with:
-      working_dir: ./example-projects/kubernetes
+      working_dirs: ./example-projects/kubernetes
       ignore_dirs: .github,tests
       kubeconform_ignore_filename_patterns: ".*gotk-.*,.*.sops.yaml"
       kubeconform_skip_resources: "Secret"
