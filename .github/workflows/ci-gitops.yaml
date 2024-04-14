@@ -2,7 +2,7 @@ name: "CI (GitOps)"
 on:
   workflow_call:
     inputs:
-      working_dir:
+      working_dirs:
         type: string
         description: "A comma-separated list of directories to use (e.g. ./prod,./staging)"
         required: true
@@ -50,7 +50,7 @@ jobs:
 
       - name: "🕵️ Check ${{ inputs.working_dir }} manifests"
         run: |
-          krmc check ${{ inputs.working_dir }} \
+          krmc check ${{ inputs.working_dirs }} \
             --ignore-dirs="${{ inputs.ignore_dirs }}" \
             --kubeconform-ignore-filename-patterns="${{ inputs.kubeconform_ignore_filename_patterns }}" \
             --kubeconform-skip-resources="${{ inputs.kubeconform_skip_resources }}" \
