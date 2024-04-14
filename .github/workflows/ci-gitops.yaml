@@ -4,8 +4,23 @@ on:
     inputs:
       working_dir:
         type: string
-        description: "The working directory to use (e.g. ./prod)"
+        description: "A comma-separated list of directories to use (e.g. ./prod,./staging)"
         required: true
+      ignore_dirs:
+        type: string
+        description: "A comma-separated list of directory names to ignore"
+        required: false
+        default: ""
+      kubeconform_ignore_filename_patterns:
+        type: string
+        description: "A comma-separated list of regular expression specifying paths that kubeconform will ignore (e.g. .*gotk-.*,.*.sops.yaml)"
+        required: false
+        default: ""
+      kubeconform_skip_resources:
+        type: string
+        description: "A comma-separated list of kinds or GVKs kubeconform will ignore (e.g. Secret,ConfigMap)"
+        required: false
+        default: ""
       kubernetes_version:
         type: string
         description: "The Kubernetes version to use (e.g. 1.27.4)"
@@ -36,6 +51,9 @@ jobs:
       - name: "🕵️ Check ${{ inputs.working_dir }} manifests"
         run: |
           krmc check ${{ inputs.working_dir }} \
-            --verbose \
-            --kubernetes-version=${{ inputs.kubernetes_version }} \
-            --trivy-severity=${{ inputs.trivy_severity }}
+            --ignore-dirs="${{ inputs.ignore_dirs }}" \
+            --kubeconform-ignore-filename-patterns="${{ inputs.kubeconform_ignore_filename_patterns }}" \
+            --kubeconform-skip-resources="${{ inputs.kubeconform_skip_resources }}" \
+            --kubernetes-version="${{ inputs.kubernetes_version }}" \
+            --trivy-severity="${{ inputs.trivy_severity }}" \
+            --verbose
