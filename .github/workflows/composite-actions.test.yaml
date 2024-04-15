@@ -55,6 +55,19 @@ jobs:
           commit_message: "Added Test.md"
           push_options: "--dry-run"
 
+  git-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "⏬ Checkout Git repository"
+        uses: actions/checkout@v4
+
+      - name: "🔎 Detect directories containing changes"
+        uses: ./git/changes
+        with:
+          base_branch: ${{ github.base_ref }}
+          include_pattern: '.*\.(ya?ml|sh)'
+          ignore_pattern: '(.github|test)/.*'
+
   git-changed-top-level-dirs:
     runs-on: ubuntu-latest
     steps:
