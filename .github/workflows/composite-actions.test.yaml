@@ -62,11 +62,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "🔎 Detect directories containing changes"
+        id: detect-changes
         uses: ./git/changes
         with:
           base_branch: ${{ github.base_ref }}
           include_pattern: '.*\.(ya?ml|sh)'
           ignore_pattern: '(.github|test)/.*'
+
+      - name: "🖨️ Print changes"
+        run: |
+          echo "${{ steps.detect-changes.outputs.changed_files }}"
+          echo "${{ steps.detect-changes.outputs.changed_dirs }}"
 
   rsync-upload:
     runs-on: ubuntu-latest
