@@ -45,7 +45,8 @@ runs:
         # prepare output
         output_changed_files=()
         output_changed_dirs=()
-        for file in "${result[@]}"; do
+        IFS=$'\n'
+        for file in $result; do
           output_changed_files+=("$file")
           output_changed_dirs+=("$(dirname "$file")")
         done
