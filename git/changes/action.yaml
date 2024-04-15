@@ -1,0 +1,56 @@
+name: "git changes"
+description: "Detects all files and directories that contain changes when compared against a base branch."
+
+inputs:
+  base_branch:
+    description: "The branch to compare changes against"
+    required: false
+    default: "main"
+  include_pattern:
+    description: "A regular expression defining files to be included"
+    required: false
+    default: ".*"
+  ignore_pattern:
+    description: "A regular expression defining files to be excluded, with higher priority than the include_pattern"
+    required: false
+    default: ""
+
+outputs:
+  changed_files:
+    description: "A comma-separated list of files that were changed"
+    value: ${{ steps.detect.outputs.changed_files }}
+  changed_dirs:
+    description: "A comma-separated list of directories that contain changes"
+    value: ${{ steps.detect.outputs.changed-dirs }}
+
+runs:
+  using: composite
+  steps:
+    - name: "⏬ Checkout Git repository"
+      uses: actions/checkout@v4
+
+    - name: "🔎 Detect files and directories containing changes"
+      id: detect
+      shell: bash
+      run: |
+        # parse inputs
+        base_branch=${{ inputs.base_branch }}
+        base_branch="${base_branch#origin/}"
+        
+        # ensure base branch is fetched
+        git fetch origin "$base_branch"
+
+        result=$(git diff --name-only "origin/$base_branch" HEAD | grep -vE "^${{ inputs.ignore_pattern }}$" | grep -E "^${{ inputs.include_pattern }}$")
+        
+        # prepare output
+        output_changed_files=()
+        output_changed_dirs=()
+        for file in "${result[@]}"; do
+          output_changed_files+=($file)
+          output_changed_dirs+=($(dirname "$file"))
+        done
+        
+        # output
+        IFS=','
+        echo "changed_files=${output_changed_files[*]}" >> $GITHUB_OUTPUT
+        echo "changed_dirs=${output_changed_dirs[*]}" >> $GITHUB_OUTPUT
