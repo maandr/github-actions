@@ -68,18 +68,6 @@ jobs:
           include_pattern: '.*\.(ya?ml|sh)'
           ignore_pattern: '(.github|test)/.*'
 
-  git-changed-top-level-dirs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "⏬ Checkout git repository"
-        uses: actions/checkout@v4
-
-      - name: "🔎 Detect top level directories containing changes"
-        uses: ./git/changed-top-level-dirs
-        with:
-          base_branch: ${{ github.base_ref }}
-          ignored_dirs: ".github"
-
   rsync-upload:
     runs-on: ubuntu-latest
     steps:
