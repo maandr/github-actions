@@ -35,6 +35,7 @@ on:
 jobs:
   ci-go:
     runs-on: ubuntu-latest
+    container: ghcr.io/maandr/action-runners/golang:1
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     defaults:
       run:
@@ -42,14 +43,6 @@ jobs:
     steps:
       - name: "⏬ Checkout Git repository"
         uses: actions/checkout@v4
-
-      - name: "⚙️ Set up Go"
-        uses: actions/setup-go@v5.0.0
-        with:
-          go-version: ${{ inputs.go_version }}
-
-      - name: "⚙️ Install staticcheck"
-        run: go install honnef.co/go/tools/cmd/staticcheck@2023.1.3
 
       - name: "✅ Verify dependencies"
         run: go mod verify
@@ -64,4 +57,6 @@ jobs:
         run: ${{ inputs.lint_command }}
 
       - name: "🧪 Test application"
+        env:
+          CGO_ENABLED: 1
         run: ${{ inputs.test_command }}
