@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: weekly
   - package-ecosystem: github-actions
-    directory: ./curl/check
+    directory: ./git/commit-and-push
     schedule:
       interval: weekly
   - package-ecosystem: github-actions
@@ -18,11 +18,11 @@ updates:
     schedule:
       interval: weekly
   - package-ecosystem: github-actions
-    directory: ./git/commit-and-push
+    directory: ./ssh/setup
     schedule:
       interval: weekly
   - package-ecosystem: github-actions
-    directory: ./ssh/setup
+    directory: ./curl/check
     schedule:
       interval: weekly
   - package-ecosystem: docker
