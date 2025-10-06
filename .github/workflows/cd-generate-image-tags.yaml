@@ -29,7 +29,7 @@ jobs:
         labels: ${{ steps.docker-metadata.outputs.labels }}
     steps:
       - name: "⏬ Checkout Git Repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "🏷️ Generate a sortable image tag"
         run: echo "SORTABLE_IMAGE_TAG=${{ github.ref_name }}-$(git rev-parse --short HEAD)-$(date +%F.%H%M%S)" >> $GITHUB_ENV

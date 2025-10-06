@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "⏬ Checkout git repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "🧪 GET google.com"
         uses: ./curl/check
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "⏬ Checkout git repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.head_ref }}
       
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "⏬ Checkout Git repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "🔎 Detect directories containing changes"
         id: detect-changes
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "⏬ Checkout git repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "⏫ Upload files"
         uses: ./rsync/upload
@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "⏬ Checkout git repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "⚙️ Setup SSH on runner"
         uses: ./ssh/setup
