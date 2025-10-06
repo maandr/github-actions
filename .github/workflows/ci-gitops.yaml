@@ -46,7 +46,7 @@ jobs:
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     steps:
       - name: "⏬ Checkout Git Repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "🕵️ Check ${{ inputs.working_dir }} manifests"
         run: |

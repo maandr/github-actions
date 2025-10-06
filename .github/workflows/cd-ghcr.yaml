@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     steps:
       - name: "⏬ Checkout Git Repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "⚙️ Setup QEMU"
         uses: docker/setup-qemu-action@v3
