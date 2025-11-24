@@ -27,7 +27,7 @@ runs:
   using: composite
   steps:
     - name: "⏬ Checkout Git repository"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: "🔎 Detect files and directories containing changes"
       id: detect
